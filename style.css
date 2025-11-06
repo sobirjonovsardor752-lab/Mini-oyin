@@ -1,0 +1,80 @@
+body {
+  font-family: sans-serif;
+  text-align: center;
+  background: linear-gradient(to bottom, #87ceeb, #f0f8ff);
+}
+
+.game {
+  margin-top: 20px;
+}
+
+.field {
+  position: relative;
+  width: 400px;
+  height: 500px;
+  margin: 20px auto;
+  background: #fff;
+  border: 2px solid #333;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.ball {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background: red;
+  border-radius: 50%;
+  transition: top 0.3s linear;
+}
+
+/* .player {
+  position: absolute;
+  bottom: 0;
+  width: 80px;
+  height: 20px;
+  background: blue;
+  border-radius: 5px;
+  transition: left 0.2s;
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+body {
+  font-family: sans-serif;
+  text-align: center;
+  background: #f0f0f0; /* oddiy fon qilsang ham bo‘ladi */
+}
+
+.field {
+  position: relative;
+  width: 400px;
+  height: 500px;
+  margin: 20px auto;
+  background: #fff; /* maydon oq bo‘lsin */
+  border: 2px solid #333;
+  overflow: hidden;
+  border-radius: 10px;
+}
+/* O'yinchi platformasini kattalashtirish */
+.player {
+  width: 160px;   /* oldingidan kattaroq */
+  height: 28px;   /* balandroq */
+  bottom: 8px;
+
+  /* ko‘rinishini yaxshilash (ixtiyoriy) */
+  background: linear-gradient(135deg, #0a47ff, #29b6f6);
+  border-radius: 14px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.25), inset 0 -3px 6px rgba(0,0,0,0.2);
+  border: 2px solid rgba(255,255,255,0.4);
+}

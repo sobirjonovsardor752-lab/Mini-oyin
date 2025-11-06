@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catch the Ball 🎮</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: skyblue;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 10px 0;
+    }
+
+    #ui {
+      margin-bottom: 10px;
+    }
+
+    .field {
+      position: relative;
+      width: 100%;
+      height: 500px;
+      background: linear-gradient(#cceeff, #ffffff);
+      overflow: hidden;
+      border: 2px solid #333;
+      margin: auto;
+    }
+
+    .player {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 20px;
+      background: darkblue;
+      border-radius: 5px;
+    }
+
+    .ball {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: red;
+    }
+
+    #gameOver {
+      display: none;
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 50px;
+      font-weight: bold;
+      color: red;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translate(-50%, -60%); }
+      to { opacity: 1; transform: translate(-50%, -50%); }
+    }
+  </style>
+</head>
+<body>
+  <h1>🎮 Catch the Ball</h1>
+  <div id="ui">
+    <span id="score">Score: 0</span>
+    <button id="restart">Restart</button>
+  </div>
+
+  <div class="field" id="field">
+    <div class="player" id="player"></div>
+    <div id="gameOver">GAME OVER</div>
+  </div>
+
+  <script>
+    const field = document.getElementById("field");
+    const player = document.getElementById("player");
+    const gameOverText = document.getElementById("gameOver");
+    const scoreEl = document.getElementById("score");
+    const restartBtn = document.getElementById("restart");
+
+    let score = 0;
+    let isGameOver = false;
+    let currentBall = null;
+
+    function createBall() {
+      if (currentBall) return;
+
+      const ball = document.createElement("div");
+      ball.classList.add("ball");
+
+      // har safar tasodifiy joydan chiqadi (tepada)
+      ball.style.left = Math.random() * (field.clientWidth - 30) + "px";
+      ball.style.top = "0px";
+      field.appendChild(ball);
+      currentBall = ball;
+
+      let fall = setInterval(() => {
+        if (isGameOver) {
+          clearInterval(fall);
+          return;
+        }
+
+        let ballTop = parseInt(ball.style.top);
+        ball.style.top = ballTop + 5 + "px"; // tezroq tushadi (5px)
+
+        // To'qnashuv tekshirish
+        let ballRect = ball.getBoundingClientRect();
+        let playerRect = player.getBoundingClientRect();
+
+        if (
+          ballRect.bottom >= playerRect.top &&
+          ballRect.left < playerRect.right &&
+          ballRect.right > playerRect.left
+        ) {
+          clearInterval(fall);
+          field.removeChild(ball);
+          currentBall = null;
+          score++;
+          scoreEl.textContent = "Score: " + score;
+          setTimeout(createBall, 500); // yarim soniyadan keyin yangi shar
+        }
+
+        // Pastga tushib ketsa
+        if (ballTop > field.clientHeight - 30) {
+          clearInterval(fall);
+          gameOver();
+        }
+      }, 20);
+    }
+
+    function gameOver() {
+      isGameOver = true;
+      gameOverText.style.display = "block";
+    }
+
+    restartBtn.addEventListener("click", () => {
+      location.reload();
+    });
+
+    // Chap-o'ng tugmalar
+    document.addEventListener("keydown", (e) => {
+      let left = parseInt(player.style.left) || field.clientWidth / 2 - 30;
+      if (e.key === "ArrowLeft" && left > 0) {
+        player.style.left = left - 20 + "px";
+      } else if (e.key === "ArrowRight" && left < field.clientWidth - 60) {
+        player.style.left = left + 20 + "px";
+      }
+    });
+
+    // Start
+    createBall();
+  </script>
+</body>
+</html>
